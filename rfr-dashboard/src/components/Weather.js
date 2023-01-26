@@ -19,7 +19,6 @@ export default function Weather() {
                         desc: data.weather[0].description.charAt(0).toUpperCase() + data.weather[0].description.slice(1),
                         icon: data.weather[0].icon
                     });
-                    console.log(data);
                 });
         }, 5000);
     }, []);
@@ -27,10 +26,10 @@ export default function Weather() {
     return (
         <div className="weather">
             <div className='flex'>
-                { weather.icon !== '' ? <img src={`http://openweathermap.org/img/w/${weather.icon}.png`} style={{ width: '4em' }} alt="weather icon" /> : null }
+                { weather.icon !== '' ? <img src={`http://openweathermap.org/img/w/${weather.icon}.png`} style={{ width: '5em' }} alt="weather icon" /> : null }
                 <h3 className="text" style={{ fontSize: '5em' }}>{weather.temp}</h3>
                 <br></br>
-                <h3 className='text' style={{ fontSize: '2em' }}><FaArrowUp/> {weather.high} <FaArrowDown/> {weather.low} </h3>
+                { weather.icon !== '' ? <h3 className='text' style={{ fontSize: '2em' }}><FaArrowUp/> {weather.high} <FaArrowDown/> {weather.low} </h3> : null }
             </div>
             <h3 className="text" style={{ marginTop: '-1vh', fontSize: '3em' }}><i>{weather.desc}</i></h3>
         </div>

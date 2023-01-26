@@ -1,28 +1,38 @@
 import FullCalendar from '@fullcalendar/react'; 
 import dayGridPlugin from '@fullcalendar/daygrid';
 import googleCalendarPlugin from '@fullcalendar/google-calendar';
-import { useEffect, useState } from 'react';
+import React from 'react';
 
-export default function Calendar() {
+// Had to use a class component here because I need to use setInterval to refresh the calendar
+export default class Calendar extends React.Component {
 
-    const [forceUpdate, setForceUpdate] = useState(0);
+    calendarRef = React.createRef();
 
-    useEffect(() => {
+    componentDidMount() {
+        // Refresh the calendar every 10 seconds.
+        const interval = 10000;
         setInterval(() => {
-            setForceUpdate(forceUpdate == 0 ? 1 : 0);
-        }, 10000);
-    });
+            try {
+                this.refreshCalendar();
+            } catch {
+                console.warn('Calendar refresh failed. Check your internet connection.');
+            }
+        }, interval);
+    }
 
+    refreshCalendar() {
+        let calendarApi = this.calendarRef.current.getApi();
+        calendarApi.refetchEvents();
+    }
 
-    return (
-        <div className='calendar'>
-            <input type="hidden" value={forceUpdate} />
+    render() {
+        return <div className='calendar'>
             <FullCalendar 
-                defaultView="dayGridMonth" 
                 views={['dayGridMonth', 'dayGridWeek', 'dayGridDay']}
                 plugins={[ dayGridPlugin, googleCalendarPlugin ]} 
                 headerToolbar={{ left: 'prev,next today', center: 'title', right: 'dayGridMonth,dayGridWeek,dayGridDay' }}
                 height="50vh" 
+                ref={this.calendarRef}
                 themeSystem='bootstrap5'
                 eventColor='#ff0000'
                 eventTextColor='black'
@@ -40,13 +50,9 @@ export default function Calendar() {
                     {
                         // RFR23 Timeline
                         googleCalendarId: '3h4u4jr9st3ptusru3cn9mogso@group.calendar.google.com'
-                    },
-                    {
-                        // Test
-                        googleCalendarId: 'aecda0916b57feb14fb7d7457f5fe8e3f43ed885b58ef7bd7745ce9cbfc65396@group.calendar.google.com'
                     }
                 ]
             }/>
-        </div>
-    );
+        </div> 
+    }
 }
