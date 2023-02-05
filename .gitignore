@@ -127,3 +127,5 @@ dist
 .pnp.*
 .cmd
 .ps1
+env.js
+secrets.js

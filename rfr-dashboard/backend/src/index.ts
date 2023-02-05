@@ -3,8 +3,7 @@ import express from "express";
 const cors = require('cors');
 import path from "path";
 import { ClickupHelper } from "./ClickupHelper";
-import * as dotenv from "dotenv";
-dotenv.config({ path: './.env' });
+import { SECRETS } from "../../src/secrets.js";
 
 const app = express();
 const port = 8080;
@@ -23,11 +22,11 @@ let clickupHelper: ClickupHelper;
 
 app.get("/tasks", (req, res) => {
     if (!clickupHelper) {
-        if (!process.env.CLICKUP_API_KEY) {
+        if (!SECRETS.clickupAPIKey) {
             res.send("ERROR: CLICKUP_API_KEY not set");
             return;
         }
-        clickupHelper = new ClickupHelper(process.env.CLICKUP_API_KEY);
+        clickupHelper = new ClickupHelper(SECRETS.clickupAPIKey);
     }
     clickupHelper.getTasks().then((data) => {
         res.send(data);
