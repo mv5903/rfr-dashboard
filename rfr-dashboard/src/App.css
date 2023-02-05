@@ -205,3 +205,7 @@ body {
   text-align: center;
   line-height: 34px;
 }
+
+.assignee:hover {
+  cursor: pointer;
+}

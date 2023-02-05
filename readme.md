@@ -1,6 +1,8 @@
 ## In-house dashboard for Rutgers Formula Racing Team
 Please do NOT copy this code without explicit permission. You can request permission by contacting Matthew Vandenberg at msv77@scarletmail.rutgers.edu.
 
+![Dashboard Demo](./images/dashboard.png)
+
 This serves as a dashboard to keep on the TV inside the Rutgers Formula Racing shop. It is a simple web app, composed of two componenets: the front-end webpage and the back-end server. 
 
 The front-end webpage is composed of a React project. It utilizes OpenWeatherMap's API to display the weather, the Google Calendar API to display the team's calendar, and the makes requests to the backend API to be able to display the team's Clickup tasks.

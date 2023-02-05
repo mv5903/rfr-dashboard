@@ -1,4 +1,3 @@
-
 import background from './media/car.jpg';
 import './App.css';
 import HomePage from './components/HomePage';
