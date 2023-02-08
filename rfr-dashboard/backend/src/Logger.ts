@@ -1,6 +1,6 @@
 import { Logger, transports, format, createLogger } from 'winston';
 
-const writeToFile: boolean = false;
+const writeToFile: boolean = true;
 
 export class RFRLogger {
     private logger: Logger;

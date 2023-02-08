@@ -209,3 +209,16 @@ body {
 .assignee:hover {
   cursor: pointer;
 }
+
+.flex {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+  vertical-align: middle;
+}
+
+.legend {
+  border-radius: 3px;
+  padding: 10px;
+}

@@ -27,23 +27,35 @@ export default class Calendar extends React.Component {
     }
 
     render() {
-        return <div className='calendar'>
-            <FullCalendar 
-                views={['dayGridMonth', 'dayGridWeek', 'dayGridDay']}
-                plugins={[ dayGridPlugin, googleCalendarPlugin ]} 
-                headerToolbar={{ left: 'prev,next today', center: 'title', right: 'dayGridMonth,dayGridWeek,dayGridDay' }}
-                height="50vh" 
-                ref={this.calendarRef}
-                themeSystem='bootstrap5'
-                eventColor='#ff0000'
-                eventTextColor='black'
-                googleCalendarApiKey={SECRETS.googleCalendarAPIKey}
-                eventSources={SECRETS.googleCalendars.map((calendarId) => {
-                    return {
-                        googleCalendarId: calendarId
-                    }
-                })
-            }/>
-        </div> 
+        return (
+            <div className='calendar'>
+                <FullCalendar 
+                    views={['dayGridMonth', 'dayGridWeek', 'dayGridDay']}
+                    plugins={[ dayGridPlugin, googleCalendarPlugin ]} 
+                    headerToolbar={{ left: 'prev,next today', center: 'title', right: 'dayGridMonth,dayGridWeek,dayGridDay' }}
+                    height="50vh" 
+                    ref={this.calendarRef}
+                    themeSystem='bootstrap5'
+                    eventColor='#ff0000'
+                    eventTextColor='black'
+                    googleCalendarApiKey={SECRETS.googleCalendarAPIKey}
+                    eventSources={SECRETS.googleCalendars.map((calendar) => {
+                        return {
+                            googleCalendarId: calendar.id,
+                            color: calendar.color,
+                        }
+                    })
+                }/>
+                <div className="flex">
+                    {SECRETS.googleCalendars.map((calendar) => {
+                        return (
+                            <div className="flex">
+                                <p className='text legend' style={{backgroundColor: 'white'}}>{calendar.name}</p>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div> 
+        );
     }
 }
