@@ -9,3 +9,5 @@ The front-end webpage is composed of a React project. It utilizes OpenWeatherMap
 
 The backend server is a Node.js server built with Express.js that makes requests to the Clickup API to get the team's tasks. It then parses the data and sends it to the front-end for consumption.
 
+> **For RFR Members:** To run, just run `bash run.sh` from within ***rfr-dashboard/src***. This is a simple script that should quickly get the server and front-end webpage running.
+
