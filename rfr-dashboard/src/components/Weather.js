@@ -25,7 +25,7 @@ export default function Weather() {
 
     return (
         <div className="weather">
-            <div className='flex'>
+            <div className='flex-col'>
                 { weather.icon !== '' ? <img src={`http://openweathermap.org/img/w/${weather.icon}.png`} style={{ width: '5em' }} alt="weather icon" /> : null }
                 <h3 className="text" style={{ fontSize: '5em' }}>{weather.temp}</h3>
                 <br></br>

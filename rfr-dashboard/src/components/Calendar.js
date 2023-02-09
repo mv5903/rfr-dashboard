@@ -46,11 +46,11 @@ export default class Calendar extends React.Component {
                         }
                     })
                 }/>
-                <div className="flex">
-                    {SECRETS.googleCalendars.map((calendar) => {
+                <div className="flex" style={{marginTop: '2vh'}}>
+                    {SECRETS.googleCalendars.map((calendar, index) => {
                         return (
-                            <div className="flex">
-                                <p className='text legend' style={{backgroundColor: 'white'}}>{calendar.name}</p>
+                            <div className="flex" key={index}>
+                                <p className='text legend' style={{backgroundColor: calendar.color }}>{calendar.name}</p>
                             </div>
                         );
                     })}

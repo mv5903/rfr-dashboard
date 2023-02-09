@@ -4,7 +4,7 @@ export class ClickupHelper {
     private apiKey: string;
     private workspaceId: string = "";
     private spaceId: string = "";
-    private drivingCarListId: string = "";
+    private folderlessListIDs: string[] = [];
     private logger: RFRLogger = new RFRLogger();
 
     constructor(apiKey: string) {
@@ -13,34 +13,39 @@ export class ClickupHelper {
 
     public async getTasks() {
         this.logger.log("API Call Requested");
-        return await this.getDrivingCarTasks();
+        return await this.getAllTasks();
     }
 
-    public async getDrivingCarTasks() {
-        if (this.drivingCarListId === "") {
+    public async getAllTasks() {
+        if (this.folderlessListIDs.length === 0) {
             const lists = await this.getFolderlessLists();
             this.logger.log(`lists ${JSON.stringify(lists)}`);
-            this.drivingCarListId = lists.lists[1].id;
-            this.logger.log(`drivingCarTasksListId ${this.drivingCarListId} retrieved`);
+            this.folderlessListIDs = lists.lists.map((list: any) => list.id);
+            this.logger.log(`folderlessListID's ${this.folderlessListIDs} retrieved`);
         }
 
-        const response = await fetch(
-            `https://api.clickup.com/api/v2/list/${this.drivingCarListId}/task`,
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: 'pk_57143560_TQOB8ZNCNW2EFCPG3A32RSU2DUPHRLCY'
+        let allTasks: any[] = [];
+
+        await Promise.all(this.folderlessListIDs.map(async (listId: string) => {
+            const response = await fetch(
+                `https://api.clickup.com/api/v2/list/${listId}/task?subtasks=true`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: 'pk_57143560_TQOB8ZNCNW2EFCPG3A32RSU2DUPHRLCY'
+                    }
                 }
+            );
+            this.logger.log("getRollingChassisList(): " + response.status + " " + response.statusText);
+            if (response.status !== 200) {
+                const message = response.json();
+                this.logger.log("Error: " + message);
             }
-        );
-        this.logger.log("getRollingChassisList(): " + response.status + " " + response.statusText);
-        if (response.status !== 200) {
-            const message = await response.json();
-            this.logger.log("Error: " + message);
-            return 'Error: Check the logs for more details.';
-        }
-        return response.json();
+            const json = await response.json();
+            allTasks = allTasks.concat(json.tasks);
+        }));
+        return allTasks;
     }
 
     public async getFolderlessLists() {

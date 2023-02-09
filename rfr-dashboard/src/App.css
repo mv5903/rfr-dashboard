@@ -148,15 +148,22 @@ body {
 .clickup {
   position: absolute;
   width: 45vw;
-  height: 60vh;
+  height: 70vh;
   background-color: #444;
   margin-left: 52.5vw;
-  margin-top: 25vh;
+  margin-top: 20vh;
   opacity: .8;
   color: white;
   text-align: left;
   padding: 10px;
   border-radius: 3px;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.clickup::-webkit-scrollbar {
+  display: none;
 }
 
 .clickup-dropdown {
@@ -214,11 +221,26 @@ body {
   display: flex;
   flex-direction: row;
   align-content: center;
-  justify-content: center;
+  justify-content: space-around;
   vertical-align: middle;
 }
 
 .legend {
   border-radius: 3px;
   padding: 10px;
+}
+
+/* Wraps text inside day event so that event titles don't get cutoff */
+.fc-event-time, .fc-event-title {
+  padding: 0 1px;
+  white-space: normal;
+}
+
+.caretCustom {
+  width: 2vh;
+  height: 2vh;
+}
+
+.caretCustom:hover {
+  cursor: pointer;
 }

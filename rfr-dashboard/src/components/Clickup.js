@@ -1,28 +1,52 @@
 import { useEffect, useState } from "react";
-import { ProgressBar } from "react-bootstrap";
+import ClickupTask from "./ClickupTask";
 
 export default function Clickup() {
-
-    function titleCase(str) {
-        return str.split(' ').map(w => w[0].toUpperCase() + w.substring(1).toLowerCase()).join(' ');
-    }
-
-    function setTaskState(event) {
-        setTaskType(event.target.value);
-    }
-
     const [tasks, setTasks] = useState([]);
     const [taskTypes, setTaskTypes] = useState([]);
-    const [taskType, setTaskType] = useState("in progress");
+    const [taskType, setTaskType] = useState({"list": "Driving Car", "status": "in progress"});
+    const [showSubtasks, setShowSubtasks] = useState([]);
+
+    function setTaskState(event) {
+        let type = JSON.parse(event.target.value);
+        setTaskType({"list": type.list, "status": type.status});
+    }
+
+    function showSubtask(id) {
+        let newShowSubtasks = [...showSubtasks];
+        const index = newShowSubtasks.indexOf(id);
+        if (index > -1) { // only splice array when item is found
+            newShowSubtasks.splice(index, 1); // 2nd parameter means remove one item only
+        } else {
+            newShowSubtasks.push(id);
+        }
+        setShowSubtasks(newShowSubtasks);
+    }
 
     useEffect(() => {
         const interval = setInterval(() => {
             fetch("http://localhost:8080/tasks")
                 .then(response => response.json())
                 .then(data => {
-                    if (data.tasks) {
-                        setTasks(data.tasks);
-                        setTaskTypes(data.tasks.map((task) => task.status.status).filter((value, index, self) => self.indexOf(value) === index));
+                    if (data.length > 0) {
+                        // Redorder tasks by originalOrder index
+                        data.sort((a, b) => a.orderindex - b.orderindex);
+                        setTasks(data);
+                        // Get lists
+                        let types = [];
+                        data.forEach(task => {
+                            let found = false;
+                            types.forEach(type => {
+                                if (type.list === task.list.name && type.status === task.status.status) {
+                                    found = true;
+                                }
+                            })
+                            if (!found && !task.parent) {
+                                types.push({"list": task.list.name, "status": task.status.status});
+                            }
+                        });
+                        types.sort((a,b) => (a.list > b.list) ? 1 : ((b.list > a.list) ? -1 : 0))
+                        setTaskTypes(types);
                     }
                 });
         }, 5000);
@@ -35,10 +59,10 @@ export default function Clickup() {
                 taskTypes.length > 0 
                 ?
                 <div className="clickup-dropdown">
-                    <select className="form-select" onChange={setTaskState} defaultValue={taskType}>
+                    <select className="form-select" onChange={setTaskState} defaultValue={JSON.stringify(taskType)}>
                         {taskTypes.map((type, index) => {
                             return (
-                                <option value={type} key={index}>{titleCase(type)}</option>
+                                <option value={JSON.stringify(type)} key={index}>{`${type.list}: ${type.status}`}</option>
                             );
                         })}
                     </select>
@@ -49,6 +73,7 @@ export default function Clickup() {
             <table className="table">
                 <thead>
                     <tr>
+                        <th></th>
                         <th scope="col"><p>Task</p></th>
                         <th scope="col"><p>Progress</p></th>
                         <th scope="col"><p>Assignee(s)</p></th>
@@ -57,25 +82,36 @@ export default function Clickup() {
                 </thead>
                 <tbody>
                     {tasks.map((task, rowIndex) => {
-                        if (task.status.status === taskType) {
-                            const progress = task.custom_fields.find((field) => field.name === "Progress").value.percent_complete ?? 0;
-                            const asignees = task.assignees ?? [];
-                            const dueDate = new Date(parseInt(task.due_date));
+                        const props = {
+                            task: task,
+                            tasks: tasks,
+                            takeType: taskType,
+                            showSubtasks: showSubtasks,
+                            showSubtask: showSubtask,
+                            isSubtask: false
+                        }
+                        if (!task.parent && task.list.name === taskType.list && task.status.status === taskType.status) {
                             return (
-                                <tr key={rowIndex}>
-                                    <td><p>{task.name}</p></td>
-                                    <td><ProgressBar striped varient="success" now={progress} label={`${progress}%`}/></td>
-                                    <td>
-                                        <div className="assignees">
-                                            {asignees.map((asignee, index) => {
+                                <>
+                                    <ClickupTask {...props} key={rowIndex} />
+                                    {
+                                        showSubtasks.includes(task.id) && tasks.map((subtask, subtaskIndex) => {
+                                            const subtaskProps = {
+                                                task: subtask,
+                                                takeType: taskType,
+                                                showSubtasks: showSubtasks,
+                                                showSubtask: showSubtask,
+                                                isSubtask: true
+                                            }
+                                            if (subtask.parent && subtask.parent === task.id) {
                                                 return (
-                                                    <div className="assignee" key={index} style={{backgroundColor: asignee.color}} title={asignee.username}>{asignee.initials}</div>
-                                                )
-                                            })}
-                                        </div>
-                                    </td>
-                                    <td><p style={{ color: dueDate <= new Date() ? 'red' : 'white' }}>{dueDate.toLocaleDateString()}</p></td>
-                                </tr>
+                                                    <ClickupTask {...subtaskProps} key={subtaskIndex} />
+                                                );
+                                            }
+                                            return null;
+                                        })
+                                    }
+                                </>
                             );
                         }
                         return null;
