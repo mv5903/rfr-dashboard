@@ -31,7 +31,7 @@ export default function ClickupTask({ task, tasks, showSubtasks, showSubtask, is
                     :
                     <td><p><strong><a href={task.url} target="_blank" rel="noreferrer" style={{color: 'white'}}>{task.name}</a></strong></p></td>
                 }
-                <td><ProgressBar striped varient="success" now={progress} label={`${progress}%`}/></td>
+                <td><ProgressBar striped varient="success" now={progress} label={`${progress}%`} /></td>
                 <td>
                     <div className="assignees">
                         {asignees.map((asignee, index) => {

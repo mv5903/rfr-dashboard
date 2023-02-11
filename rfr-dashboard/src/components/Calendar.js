@@ -33,7 +33,7 @@ export default class Calendar extends React.Component {
                     views={['dayGridMonth', 'dayGridWeek', 'dayGridDay']}
                     plugins={[ dayGridPlugin, googleCalendarPlugin ]} 
                     headerToolbar={{ left: 'prev,next today', center: 'title', right: 'dayGridMonth,dayGridWeek,dayGridDay' }}
-                    height="50vh" 
+                    height="60vh" 
                     ref={this.calendarRef}
                     themeSystem='bootstrap5'
                     eventColor='#ff0000'

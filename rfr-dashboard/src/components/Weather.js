@@ -5,7 +5,7 @@ export default function Weather() {
     const zip = '08901';
     const apikey = '214164ec971a2392bc3bd503b9174fff';
 
-    const [weather, setWeather] = useState({ temp: 'Weather is Loading...', desc: 'Please wait a few seconds...', icon: '' });
+    const [weather, setWeather] = useState({ temp: 'Fetching the current weather...', desc: 'Please wait a few seconds...', icon: '' });
 
     useEffect(() => {
         setInterval(() => {

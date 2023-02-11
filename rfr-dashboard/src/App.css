@@ -1,9 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
+:root {
+  --bg-color: 'black';
+  --element-opacity: '1';
+}
+
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
 }
 
 .App {
@@ -58,23 +64,25 @@ body {
   position: relative;
   text-align: center;
   overflow: hidden;
+  padding: 0;
 }
 
 .container::before {
-  content: "";
   display: block;
-  -webkit-filter: blur(1px) brightness(0.15);
-  -moz-filter: blur(1px) brightness(0.15);
-  -ms-filter: blur(1px) brightness(0.15);
-  -o-filter: blur(1px) brightness(0.15);
-  filter: blur(1px) brightness(0.15);
+  -webkit-filter: brightness(0.1);
+  -moz-filter: brightness(0.1);
+  -ms-filter: brightness(0.1);
+  -o-filter: brightness(0.1);
+  filter: brightness(0.1);
   position: absolute;
   left: 0;
   top: 0;
   right: 0;
   bottom: 0;
   background: inherit;
-  z-index: 0;
+  z-index: 1;
+  width: 100vw;
+  height: 100vh;
 }
 
 .content {
@@ -103,11 +111,11 @@ body {
 
 .calendar {
   position: absolute;
-  top: 40vh;
+  top: 30vh;
   left: 2vw;
   width: 40vw;
-  background-color: #444;
-  opacity: .8;
+  background-color: var(--background-color);
+  opacity: var(--element-opacity);
   border-radius: 3px;
   padding: 20px;
 }
@@ -145,14 +153,18 @@ body {
   color: white;
 }
 
+.fc-event {
+  font-weight: bolder;
+}
+
 .clickup {
   position: absolute;
-  width: 45vw;
+  width: 50vw;
   height: 70vh;
-  background-color: #444;
-  margin-left: 52.5vw;
-  margin-top: 20vh;
-  opacity: .8;
+  background-color: var(--background-color);
+  margin-left: 45vw;
+  margin-top: 18vh;
+  opacity: var(--element-opacity);
   color: white;
   text-align: left;
   padding: 10px;
@@ -174,7 +186,7 @@ body {
 .form-select {
   padding: 10px;
   font-size: 3em;
-  background-color: #444;
+  background-color: var(--background-color);
   border: none;
 }
 

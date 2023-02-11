@@ -68,7 +68,7 @@ export default function Clickup() {
                     </select>
                 </div>
                 :
-                <h3 className="clickup-loading">Loading...</h3>
+                <h3 className="clickup-loading">Loading Clickup tasks, please wait a few seconds...</h3>
             }
             <table className="table">
                 <thead>
