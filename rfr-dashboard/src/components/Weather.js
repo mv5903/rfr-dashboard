@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
+import { SECRETS } from '../secrets';
 
 export default function Weather() {
     const zip = '08901';
-    const apikey = '214164ec971a2392bc3bd503b9174fff';
+    const apikey = SECRETS.openWeatherMapAPIKey;
 
     const [weather, setWeather] = useState({ temp: 'Fetching the current weather...', desc: 'Please wait a few seconds...', icon: '' });
 
