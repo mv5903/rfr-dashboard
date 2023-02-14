@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
+import { LocalStoragePreferences } from '../util/LocalStoragePreferences';
 
 export default function DateTime() {
+    let preferences = new LocalStoragePreferences();
 
     const [date, setDate] = useState({ time: '?' , date: '?' });
     const [ampm, setAmpm] = useState('pm');
@@ -40,8 +42,19 @@ export default function DateTime() {
         const hoursStr = hours12 ? hours12 : 12;
         const minutesStr = minutes < 10 ? '0' + minutes : minutes;
         const secondsStr = seconds < 10 ? '0' + seconds : seconds;
-        setAmpm(ampm);
-        return hoursStr + ':' + minutesStr + ':' + secondsStr;
+        let time = "";
+        if (preferences.getPreference('militaryTime')) {
+            time += hours;
+            setAmpm(null);
+        } else {
+            time += hoursStr;
+            setAmpm(ampm);
+        } 
+        time += ':' + minutesStr;
+        if (preferences.getPreference('showSeconds')) {
+            time += ':' + secondsStr;
+        }
+        return time;
     }
 
     useEffect(() => {
@@ -65,9 +78,15 @@ export default function DateTime() {
     return (
         <div className='date'>
             <h3 className="text time">{date.time}</h3>
-            <h3 className="text time" style={{ left: `${ampmoffset + 10}vw` }}>{ampm}</h3>
+            <h3 className="text time" style={{ left: `${ampmoffset + 10}vw` }}>{ampm ?? ''}</h3>
             <br></br>
-            <h3 className="text"><i>{date.date}</i></h3>
+            {
+                preferences.getPreference('showDate') 
+                ?
+                <h3 className="text">{date.date}</h3>
+                : 
+                null
+            }
         </div>
     );
 }

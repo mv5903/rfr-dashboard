@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import ClickupTask from "./ClickupTask";
+import { LocalStoragePreferences } from '../util/LocalStoragePreferences';
 
 export default function Clickup() {
+    let preferences = new LocalStoragePreferences();
+    let listPreference = preferences.getPreference('defaultList').list;
+    let statusPreference = preferences.getPreference('defaultList').status;
+
     const [tasks, setTasks] = useState([]);
     const [taskTypes, setTaskTypes] = useState([]);
-    const [taskType, setTaskType] = useState({"list": "Driving Car", "status": "in progress"});
+    const [taskType, setTaskType] = useState({"list": listPreference, "status": statusPreference});
     const [showSubtasks, setShowSubtasks] = useState([]);
 
     function setTaskState(event) {
@@ -24,7 +29,7 @@ export default function Clickup() {
     }
 
     useEffect(() => {
-        const interval = setInterval(() => {
+        const interval = setInterval(function() {
             fetch("http://localhost:8080/tasks")
                 .then(response => response.json())
                 .then(data => {
@@ -49,7 +54,7 @@ export default function Clickup() {
                         setTaskTypes(types);
                     }
                 });
-        }, 5000);
+        }(), 5000);
         return () => clearInterval(interval);
     });
 

@@ -6,8 +6,8 @@ export class LocalStoragePreferences {
         if (localStorage.getItem('preferences')) {
             this.preferences = JSON.parse(localStorage.getItem('preferences'));
         } else {
-            this.preferences = defaultPreferences();
-            localStorage.setItem('preferences', this.preferences);
+            this.preferences = this.defaultPreferences();
+            localStorage.setItem('preferences', JSON.stringify(this.preferences));
 
         }
     }
@@ -16,6 +16,7 @@ export class LocalStoragePreferences {
         return {
             "unitsMetric": false,
             "showSeconds": true,
+            "militaryTime": false,
             "showDate": true,
             "showHighLowTemp": true,
             "showProgressBars": true,
@@ -32,6 +33,9 @@ export class LocalStoragePreferences {
             console.error(`Key ${key} does not exist in preferences object.`);
             return;
         }
+        if (value == "true" || value == "false") {
+            value = value == "true";
+        }
         // Check that value is of the same type as the existing value
         if (typeof value !== typeof this.preferences[key]) {
             console.error(`Value ${value} is not of the same type as existing value ${this.preferences[key]}.`);
@@ -40,7 +44,7 @@ export class LocalStoragePreferences {
         // Update the value
         this.preferences[key] = value;
         // Save the preferences to local storage
-        localStorage.setItem('preferences', this.preferences);
+        localStorage.setItem('preferences', JSON.stringify(this.preferences));
     }
 
     getPreference(key) {

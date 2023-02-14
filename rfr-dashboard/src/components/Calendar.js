@@ -38,6 +38,7 @@ export default class Calendar extends React.Component {
                     themeSystem='bootstrap5'
                     eventColor='#ff0000'
                     eventTextColor='black'
+                    dayMaxEventRows={3}
                     googleCalendarApiKey={SECRETS.googleCalendarAPIKey}
                     eventSources={SECRETS.googleCalendars.map((calendar) => {
                         return {
@@ -50,7 +51,7 @@ export default class Calendar extends React.Component {
                     {SECRETS.googleCalendars.map((calendar, index) => {
                         return (
                             <div className="flex" key={index}>
-                                <p className='text legend' style={{backgroundColor: calendar.color }}>{calendar.name}</p>
+                                <p className='text legend' style={{backgroundColor: calendar.color }}><strong>{calendar.name}</strong></p>
                             </div>
                         );
                     })}

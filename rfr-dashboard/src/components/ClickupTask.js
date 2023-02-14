@@ -1,7 +1,9 @@
 import { ProgressBar } from "react-bootstrap";
 import { FaCaretRight, FaCaretDown } from "react-icons/fa";
+import { LocalStoragePreferences } from '../util/LocalStoragePreferences';
 
 export default function ClickupTask({ task, tasks, showSubtasks, showSubtask, isSubtask }) {
+    let preferences = new LocalStoragePreferences();
     const progress = (task.custom_fields.find((field) => field.type === "automatic_progress").value.percent_complete).toFixed(1) ?? 0;
     const asignees = task.assignees ?? [];
     const dueDate = task.due_date ? new Date(parseInt(task.due_date)).toLocaleDateString() : 'N/A';
@@ -31,7 +33,15 @@ export default function ClickupTask({ task, tasks, showSubtasks, showSubtask, is
                     :
                     <td><p><strong><a href={task.url} target="_blank" rel="noreferrer" style={{color: 'white'}}>{task.name}</a></strong></p></td>
                 }
-                <td><ProgressBar striped varient="success" now={progress} label={`${progress}%`} /></td>
+                <td>
+                    {
+                        preferences.getPreference("showProgressBars")
+                        ?
+                        <ProgressBar striped varient="success" now={progress} label={`${progress}%`} />
+                        :
+                        <p>{progress}%</p>
+                    }
+                </td>
                 <td>
                     <div className="assignees">
                         {asignees.map((asignee, index) => {

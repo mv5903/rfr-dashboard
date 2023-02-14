@@ -5,7 +5,7 @@ export class ClickupHelper {
     private workspaceId: string = "";
     private spaceId: string = "";
     private folderlessListIDs: string[] = [];
-    private logger: RFRLogger = new RFRLogger();
+    public logger: RFRLogger = new RFRLogger();
 
     constructor(apiKey: string) {
         this.apiKey = apiKey;

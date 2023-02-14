@@ -256,3 +256,61 @@ body {
 .caretCustom:hover {
   cursor: pointer;
 }
+
+.settingsModal {
+  position: absolute;
+  top: 10vh;
+  left: 0;
+  right: 0;
+  width: 30vw;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: grey;
+  opacity: 0.9;
+  border-radius: 3px;
+  padding: 20px;
+  z-index: 100;
+}
+
+.settings {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.setting {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: space-between;
+  vertical-align: middle;
+  margin-bottom: 10px;
+}
+
+.settingsIcon {
+  font-size: 4em;
+  position: absolute;
+  top: 2vh;
+  right: 2vh;
+  cursor: pointer;
+}
+
+.settingsClose {
+  font-size: 2em;
+  margin-top: 3vh;
+  font-weight: bold;
+  color: red;
+  background-color: yellow;
+}
+
+.settingsModal select {
+  background-color: black;
+  font-weight: bold;
+  border-radius: 3px;
+  color: lightsalmon;
+  border: none;
+  text-align: end;
+}
+
+.settingsIcon:hover {
+  color: gold;
+}

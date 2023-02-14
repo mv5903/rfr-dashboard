@@ -1,6 +1,7 @@
 import Calendar from "./Calendar";
 import Clickup from "./Clickup";
 import DateTime from "./DateTime";
+import Settings from "./Settings";
 import Weather from "./Weather";
 
 export default function HomePage() {
@@ -11,6 +12,7 @@ export default function HomePage() {
             <DateTime />
             <Calendar />
             <Clickup />
+            <Settings/>
         </div>
     );
 }
