@@ -7,7 +7,7 @@ import { SECRETS } from "../../src/secrets.js";
 import * as ics from "ics";
 
 const app = express();
-const port = 8080;
+const port = 9000;
 const fetchInterval = 10000; // 10 seconds
 
 app.use(cors());
