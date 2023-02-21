@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import ClickupTask from "./ClickupTask";
 import { LocalStoragePreferences } from '../util/LocalStoragePreferences';
+import { SECRETS } from "../secrets";
 
 export default function Clickup() {
     let preferences = new LocalStoragePreferences();
@@ -30,7 +31,7 @@ export default function Clickup() {
 
     useEffect(() => {
         const interval = setInterval(function() {
-            fetch("http://localhost:8080/tasks")
+            fetch(SECRETS.backendHost + "tasks")
                 .then(response => response.json())
                 .then(data => {
                     if (data.length > 0) {

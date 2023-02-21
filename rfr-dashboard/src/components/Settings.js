@@ -1,6 +1,7 @@
 import { LocalStoragePreferences } from "../util/LocalStoragePreferences";
 import { useState } from "react";
 import { FaCog } from "react-icons/fa";
+import { SECRETS } from "../secrets";
 
 export default function Settings() {
     const [show, setShow] = useState(false);
@@ -10,7 +11,7 @@ export default function Settings() {
     let keys = Object.keys(preferences.preferences);
 
     function populateDefaultList() {
-        fetch("http://localhost:8080/tasks")
+        fetch(SECRETS.backendHost + "tasks")
         .then(response => response.json())
         .then(data => {
             if (data.length > 0) {
