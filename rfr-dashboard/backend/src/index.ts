@@ -51,8 +51,8 @@ https
     },
     app
   )
-  .listen(3000, function () {
+  .listen(port, function () {
     console.log(
-      "App listening on port 3000."
+      "App listening on port " + port
     );
   });
