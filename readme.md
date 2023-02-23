@@ -11,5 +11,3 @@ The backend server is a Node.js server built with Express.js in Typescript that 
 
 Ultimately the long-term goal is to host this on a remote server. To prepare for that, the backend fetches Clickup tasks every ten seconds. Then, when a fetch request is made from the dashboard, the backend can simply return back the most recently fetched tasks.
 
-> **For RFR Members:** To run, just run `bash run.sh` from within ***rfr-dashboard/src***. This is a simple script that should quickly get the server and front-end webpage running.
-
