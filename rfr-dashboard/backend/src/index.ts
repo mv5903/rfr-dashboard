@@ -4,6 +4,8 @@ const cors = require('cors');
 import path from "path";
 import { ClickupHelper } from "./ClickupHelper";
 import { SECRETS } from "../../src/secrets.js";
+var fs = require("fs");
+var https = require("https");
 import * as ics from "ics";
 
 const app = express();
@@ -41,6 +43,16 @@ app.get("/tasks", (req, res) => {
     res.send(tasks);
 });
 
-app.listen(port, () => {
-    console.log(`server started at http://localhost:${port}`);
-});
+https
+  .createServer(
+    {
+      key: fs.readFileSync("server.key"),
+      cert: fs.readFileSync("server.cert"),
+    },
+    app
+  )
+  .listen(3000, function () {
+    console.log(
+      "App listening on port 3000."
+    );
+  });
