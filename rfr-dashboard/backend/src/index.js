@@ -5,8 +5,6 @@ var express = require("express");
 var cors = require('cors');
 var path = require("path");
 var ClickupHelper_1 = require("./ClickupHelper");
-var fs = require("fs");
-var https = require("https");
 var app = express();
 var port = 9000;
 var fetchInterval = 10000; // 10 seconds
@@ -38,11 +36,6 @@ setInterval(function () {
 app.get("/tasks", function (req, res) {
     res.send(tasks);
 });
-https
-    .createServer({
-    key: fs.readFileSync("server.key"),
-    cert: fs.readFileSync("server.cert")
-}, app)
-    .listen(port, function () {
-    console.log("App listening on port " + port);
+app.listen(port, function () {
+    console.log("server started at http://localhost:".concat(port));
 });

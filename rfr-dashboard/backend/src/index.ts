@@ -3,8 +3,6 @@ import express = require("express");
 const cors = require('cors');
 import * as path from "path";
 import { ClickupHelper } from "./ClickupHelper";
-var fs = require("fs");
-var https = require("https");
 
 const app = express();
 const port = 9000;
@@ -42,16 +40,6 @@ app.get("/tasks", (req, res) => {
     res.send(tasks);
 });
 
-https
-  .createServer(
-    {
-      key: fs.readFileSync("server.key"),
-      cert: fs.readFileSync("server.cert"),
-    },
-    app
-  )
-  .listen(port, function () {
-    console.log(
-      "App listening on port " + port
-    );
-  });
+app.listen(port, () => {
+  console.log(`server started at http://localhost:${port}`);
+});
