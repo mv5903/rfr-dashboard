@@ -37,6 +37,10 @@ setInterval(() => {
 }, fetchInterval);
 
 app.get("/tasks", (req, res) => {
+    if (tasks === "") {
+        res.send("No tasks fetched yet.");
+        return;
+    }
     res.send(tasks);
 });
 

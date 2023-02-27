@@ -34,6 +34,10 @@ setInterval(function () {
     });
 }, fetchInterval);
 app.get("/tasks", function (req, res) {
+    if (tasks === "") {
+        res.send("No tasks fetched yet.");
+        return;
+    }
     res.send(tasks);
 });
 app.listen(port, function () {
