@@ -1,7 +1,7 @@
 require('dotenv').config();
-import express from "express";
+import express = require("express");
 const cors = require('cors');
-import path from "path";
+import * as path from "path";
 import { ClickupHelper } from "./ClickupHelper";
 var fs = require("fs");
 var https = require("https");
