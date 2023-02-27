@@ -1,12 +1,10 @@
-// nodemon index.ts
+require('dotenv').config();
 import express from "express";
 const cors = require('cors');
 import path from "path";
 import { ClickupHelper } from "./ClickupHelper";
-import { SECRETS } from "../../src/secrets.js";
 var fs = require("fs");
 var https = require("https");
-import * as ics from "ics";
 
 const app = express();
 const port = 9000;
@@ -26,12 +24,13 @@ app.get("/", (req, res) => {
 let clickupHelper: ClickupHelper;
 let tasks: any = "";
 setInterval(() => {
+  let key = process?.env?.CLICKUP_API_KEY || "";
     if (!clickupHelper) {
-        if (!SECRETS.clickupAPIKey) {
+        if (key) {
             console.log("ERROR: CLICKUP_API_KEY not set");
             return;
         }
-        clickupHelper = new ClickupHelper(SECRETS.clickupAPIKey);
+        clickupHelper = new ClickupHelper(key);
     }
     clickupHelper.getTasks().then((data) => {
         clickupHelper.logger.log("New tasks fetched.");
