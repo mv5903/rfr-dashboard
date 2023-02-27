@@ -18,7 +18,7 @@ export class ClickupHelper {
 
     public async getAllTasks() {
         if (this.folderlessListIDs.length === 0) {
-            const lists = await this.getFolderlessLists();
+            const lists = await this.getFolderlessLists() as any;
             this.logger.log(`lists ${JSON.stringify(lists)}`);
             this.folderlessListIDs = lists.lists.map((list: any) => list.id);
             this.logger.log(`folderlessListID's ${this.folderlessListIDs} retrieved`);
@@ -42,7 +42,7 @@ export class ClickupHelper {
                 const message = response.json();
                 this.logger.log("Error: " + message);
             }
-            const json = await response.json();
+            const json = await response.json() as any;
             allTasks = allTasks.concat(json.tasks);
         }));
         return allTasks;
@@ -50,7 +50,7 @@ export class ClickupHelper {
 
     public async getFolderlessLists() {
         if (this.spaceId === "") {
-            const spaces = await this.getSpaces();
+            const spaces = await this.getSpaces() as any;
             this.logger.log(`spaces ${JSON.stringify(spaces)}`);
             this.spaceId = spaces.spaces[1].id;
             this.logger.log(`spaceId ${this.spaceId} retrieved`);
@@ -75,7 +75,7 @@ export class ClickupHelper {
 
     public async getSpaces() {
         if (this.workspaceId === "") {
-            const workspaces = await this.getWorkspaces();
+            const workspaces = await this.getWorkspaces() as any;
             this.logger.log(`workspaces ${JSON.stringify(workspaces)}`);
             this.workspaceId = workspaces.teams[1].id;
             this.logger.log(`workspaceId ${this.workspaceId} retrieved`);

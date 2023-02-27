@@ -18,7 +18,19 @@ app.get("/", function (req, res) {
 // Fetch new events every [fetchInterval] seconds. Endpoint simply returns the last fetched events.
 var clickupHelper;
 var tasks = "";
-setInterval(function () {
+setInterval(getTasks, fetchInterval);
+app.get("/tasks", function (req, res) {
+    if (tasks === "") {
+        res.send("No tasks fetched yet.");
+        return;
+    }
+    res.send(tasks);
+});
+app.listen(port, function () {
+    console.log("Server started on port ".concat(port, "."));
+});
+getTasks();
+function getTasks() {
     var _a;
     var key = ((_a = process === null || process === void 0 ? void 0 : process.env) === null || _a === void 0 ? void 0 : _a.CLICKUP_API_KEY) || "";
     if (!clickupHelper) {
@@ -32,14 +44,4 @@ setInterval(function () {
         clickupHelper.logger.log("New tasks fetched.");
         tasks = data;
     });
-}, fetchInterval);
-app.get("/tasks", function (req, res) {
-    if (tasks === "") {
-        res.send("No tasks fetched yet.");
-        return;
-    }
-    res.send(tasks);
-});
-app.listen(port, function () {
-    console.log("server started at http://localhost:".concat(port));
-});
+}

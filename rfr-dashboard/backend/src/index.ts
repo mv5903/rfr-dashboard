@@ -21,20 +21,7 @@ app.get("/", (req, res) => {
 // Fetch new events every [fetchInterval] seconds. Endpoint simply returns the last fetched events.
 let clickupHelper: ClickupHelper;
 let tasks: any = "";
-setInterval(() => {
-  let key = process?.env?.CLICKUP_API_KEY || "";
-    if (!clickupHelper) {
-        if (!key) {
-            console.log("ERROR: CLICKUP_API_KEY not set");
-            return;
-        }
-        clickupHelper = new ClickupHelper(key);
-    }
-    clickupHelper.getTasks().then((data) => {
-        clickupHelper.logger.log("New tasks fetched.");
-        tasks = data;
-    });
-}, fetchInterval);
+setInterval(getTasks, fetchInterval);
 
 app.get("/tasks", (req, res) => {
     if (tasks === "") {
@@ -45,5 +32,21 @@ app.get("/tasks", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`server started at http://localhost:${port}`);
+  console.log(`Server started on port ${port}.`);
 });
+
+getTasks();
+function getTasks() {
+  let key = process?.env?.CLICKUP_API_KEY || "";
+  if (!clickupHelper) {
+      if (!key) {
+          console.log("ERROR: CLICKUP_API_KEY not set");
+          return;
+      }
+      clickupHelper = new ClickupHelper(key);
+  }
+  clickupHelper.getTasks().then((data) => {
+      clickupHelper.logger.log("New tasks fetched.");
+      tasks = data;
+  });
+}
