@@ -24,7 +24,7 @@ let tasks: any = "";
 setInterval(() => {
   let key = process?.env?.CLICKUP_API_KEY || "";
     if (!clickupHelper) {
-        if (key) {
+        if (!key) {
             console.log("ERROR: CLICKUP_API_KEY not set");
             return;
         }

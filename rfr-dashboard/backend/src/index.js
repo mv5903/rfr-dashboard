@@ -22,7 +22,7 @@ setInterval(function () {
     var _a;
     var key = ((_a = process === null || process === void 0 ? void 0 : process.env) === null || _a === void 0 ? void 0 : _a.CLICKUP_API_KEY) || "";
     if (!clickupHelper) {
-        if (key) {
+        if (!key) {
             console.log("ERROR: CLICKUP_API_KEY not set");
             return;
         }
