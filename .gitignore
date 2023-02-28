@@ -130,3 +130,4 @@ dist
 env.js
 connect.txt
 .DS_Store
+secrets.js
