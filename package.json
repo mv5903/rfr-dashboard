@@ -1,0 +1,20 @@
+{
+   "name": "rfr-dashboard",
+   "version": "1.0.0",
+   "description": "",
+   "scripts": {
+       "build": "cd rfr-dashboard/backend/src && tsc index.ts",
+       "test": "echo \"No test specified\" && exit 1",
+       "start": "cd rfr-dashboard/backend/src && node index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/mv5903/rfr-dashboard.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/mv5903/rfr-dashboard/issues"
+    },
+    "homepage": "https://github.com/mv5903/rfr-dashboard#readme"
+}
