@@ -5,7 +5,7 @@
    "scripts": {
        "build": "npm install",
        "test": "echo \"No test specified\" && exit 1",
-       "start": "cd rfr-dashboard/backend/src && node index.js"
+       "start": "cd rfr-dashboard/backend/src && npm install && node index.js"
     },
     "repository": {
         "type": "git",
