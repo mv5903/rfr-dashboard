@@ -55,7 +55,7 @@ export default function Clickup() {
                         setTaskTypes(types);
                     }
                 });
-        }(), 5000);
+        }, 5000);
         return () => clearInterval(interval);
     });
 
