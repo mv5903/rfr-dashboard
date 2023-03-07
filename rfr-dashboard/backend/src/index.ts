@@ -50,3 +50,5 @@ function getTasks() {
       tasks = data;
   });
 }
+
+module.exports = app;
